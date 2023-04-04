@@ -1,33 +1,21 @@
 from django.shortcuts import render
-import pyrebase
+from django.views import View
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+import firebase_admin
+from firebase_admin import credentials, db
 
-firebaseConfig = {
-  "apiKey": "AIzaSyCssiNi_NCUDmaK2mg0VRWElUpVMkVs-pI",
-  "authDomain": "driverdetection-64c39.firebaseapp.com",
-  "databaseURL":"https://driverdetection-64c39-default-rtdb.firebaseio.com/",
-  "projectId": "driverdetection-64c39",
-  "storageBucket": "driverdetection-64c39.appspot.com",
-  "messagingSenderId": "237746441834",
-  "appId": "1:237746441834:web:654aeb7aa80ad4cb464413",
-}
+class FirebaseDataView(APIView):
 
-firebase=pyrebase.initialize_app(firebaseConfig)
-auth=firebase.auth()
-database=firebase.database()
-storage=firebase.storage()
+    def get(self, request, format=None):
+        cred = credentials.Certificate('E:\Github repos\Driver_Detection\Driver__Detection\detector\serviceAccount.json')
+        firebase_admin.initialize_app(cred, {
+            'databaseURL': 'https://adas-11729-default-rtdb.firebaseio.com/'
+        })
 
-
-def home(request):
-
-    Name=database.child('Data').child('Name').get().val()
-    Copartner=database.child('Data').child('Copartner').get().val()
-    Project=database.child('Data').child('Project').get().val()
-    return render(request,'home.html',{
-        "Name":Name,
-        "Copartner":Copartner,
-        "Project":Project
-    })
-
-
-
-
+        ref = db.reference('new')
+        # order_by_child will order all the objects accoring to the current_time field, and limit_to_last will only return the first object i.e. the latest
+        query = ref.order_by_child('current_time').limit_to_last(1)
+        data = query.get()
+        return Response(data)

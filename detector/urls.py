@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from detector import views
+from .views import FirebaseDataView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.home,name='home'),
+    path('firebase-data/', FirebaseDataView.as_view(), name='firebase-data'),
 
 ]
 
