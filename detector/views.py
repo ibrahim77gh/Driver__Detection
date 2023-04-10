@@ -23,7 +23,7 @@ class FirebaseDataView(APIView):
 
     def get(self, request, format=None):
         SCOPES = ['https://www.googleapis.com/auth/cloud-platform']
-        cred = credentials.Certificate('E:\Github repos\Driver_Detection\Driver__Detection\detector\serviceAccount.json')
+        cred = credentials.Certificate('/home/advdriver/Driver__Detection/detector/serviceAccount.json')
         firebase_admin.initialize_app(cred, {
             'databaseURL': 'https://adv-driver-monitoring-system-default-rtdb.asia-southeast1.firebasedatabase.app',
             'storageBucket': 'adv-driver-monitoring-system.appspot.com',
