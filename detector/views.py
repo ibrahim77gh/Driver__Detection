@@ -21,15 +21,18 @@ def getImageName(data):
 
 class FirebaseDataView(APIView):
 
-    def get(self, request, format=None):
+    def __init__(self):
         SCOPES = ['https://www.googleapis.com/auth/cloud-platform']
-        cred = credentials.Certificate('/home/advdriver/Driver__Detection/detector/serviceAccount.json')
-        firebase_admin.initialize_app(cred, {
+        self.cred = credentials.Certificate('/home/advdriver/Driver__Detection/detector/serviceAccount.json')
+        # E:\Github repos\Driver_Detection\Driver__Detection\detector\serviceAccount.json
+        # /home/advdriver/Driver__Detection/detector/serviceAccount.json'
+        firebase_admin.initialize_app(self.cred, {
             'databaseURL': 'https://adv-driver-monitoring-system-default-rtdb.asia-southeast1.firebasedatabase.app',
             'storageBucket': 'adv-driver-monitoring-system.appspot.com',
-            'credential': f'{cred}'
+            'credential': f'{self.cred}'
         })
 
+    def get(self, request, format=None):
         # Realtime Database
         ref = db.reference('new')
 
@@ -45,7 +48,7 @@ class FirebaseDataView(APIView):
         image_name = '2023-03-31 11:35:34.jpg'
         # Get image from Firebase Storage using the name of image we got from Realtime Database
         image_blob = bucket.blob(image_name)
-        access_token = cred.get_access_token()
+        access_token = self.cred.get_access_token()
 
         # Save the image as a new field in latest_obj
         expiry = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
