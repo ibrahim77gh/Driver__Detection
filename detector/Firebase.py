@@ -11,7 +11,9 @@ class Firebase:
         return cls._instance
 
     def _initialize_firebase(self):
-        self.cred = credentials.Certificate('E:\Github repos\Driver_Detection\Driver__Detection\detector\serviceAccount.json')
+        # /home/advdriver/Driver__Detection/detector/serviceAccount.json'
+        # E:\Github repos\Driver_Detection\Driver__Detection\detector\serviceAccount.json
+        self.cred = credentials.Certificate('/home/advdriver/Driver__Detection/detector/serviceAccount.json')
         self.firebase_app = firebase_admin.initialize_app(self.cred, {
             'databaseURL': 'https://adv-driver-monitoring-system-default-rtdb.asia-southeast1.firebasedatabase.app',
             'storageBucket': 'adv-driver-monitoring-system.appspot.com',
