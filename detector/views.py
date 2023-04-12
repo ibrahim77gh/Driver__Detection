@@ -24,7 +24,7 @@ class FirebaseDataView(APIView):
 
     def get(self, request, format=None):
         firebase = Firebase()
-        firebase_app = firebase.get_app()
+        firebase.get_app()
         # Realtime Database
         ref = db.reference('new')
 
